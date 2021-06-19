@@ -1,0 +1,34 @@
+{
+  "name": "booklibraryapi",
+  "version": "1.0.0",
+  "description": "An API that allows users to check in and check out books.",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "node scripts/create-database.js test",
+    "test": "mocha tests/**/*.js --exit --recursive --timeout 60000 --file ./tests/test-setup.js",
+    "prestart": "node scripts/create-database.js",
+    "start": "nodemon -r dotenv/config index.js",
+    "posttest": "node scripts/drop-database.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluespringstest/bookLibraryApi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bluespringstest/bookLibraryApi/issues"
+  },
+  "homepage": "https://github.com/bluespringstest/bookLibraryApi#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
+    "mocha": "^9.0.1",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
+  }
+}
