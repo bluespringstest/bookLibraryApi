@@ -29,6 +29,7 @@
     "dotenv": "^10.0.0",
     "mocha": "^9.0.1",
     "nodemon": "^2.0.7",
+    "sequelize": "^6.6.2",
     "supertest": "^6.1.3"
   }
 }
