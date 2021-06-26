@@ -5,3 +5,11 @@ exports.create = async (req, res) => {
     const newReader = await Reader.create(req.body);
     res.status(201).json(newReader);
 }
+
+exports.read = async (_, res) => {};
+
+exports.readById = async(req, res) => {};
+
+exports.update = async(req, res) => {};
+
+exports.delete = async(req, res) => {};
