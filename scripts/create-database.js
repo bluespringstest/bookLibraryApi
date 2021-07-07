@@ -33,7 +33,7 @@ const setUpDatabase = async () => {
         //create the database only if it doesn't exist
         await db.query(`CREATE DATABASE IF NOT EXISTS ${DB_NAME}`);
            await db.query(`USE ${DB_NAME}`);
-               db.close();
+                          db.close();
         }
     //if something goes wrong
     catch (err) {

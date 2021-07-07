@@ -6,7 +6,9 @@ exports.create = async (req, res) => {
     res.status(201).json(newReader);
 }
 
-exports.read = async (_, res) => {};
+exports.read = async (_, res) => {
+    const readers = await Reader.create();
+};
 
 exports.readById = async(req, res) => {};
 
