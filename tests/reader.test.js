@@ -2,18 +2,14 @@ const { expect } = require('chai');
 const request = require('supertest');
 const { Reader } = require('../src/models');
 const app = require('../src/app');
-const { after } = require('mocha');
 
 describe('/readers', () => {
   before(async () => Reader.sequelize.sync());
-  after(async () =>  Reader.sequelize.close());
+  // beforeEach(async () => {
+  //   await Reader.destroy({ where: {}});
+  // });
 
-  beforeEach(async () => {
-    await Reader.destroy({ where: {} });
-  });
-
-
-  describe('with no records in the database', () => {
+describe('with no records in the database', () => {
     describe('POST /readers', () => {
       it('creates a new reader in the database', async () => {
         const response = await request(app).post('/readers').send({
@@ -32,23 +28,21 @@ describe('/readers', () => {
     });
   });
 
-  describe('with records in the database', () => {
+describe('with records in the database', () => {
     let readers;
 
-    readers = (async () =>{ await Promise.all([
-      Reader.create({
-        name: 'Joe Abercrombie',
-        email: 'firstlaw@trilogies.com',
-      }),
-      Reader.create({ name: 'Arya Stark', email: 'vmorgul@me.com' }),
-      Reader.create({ name: 'Lyra Belacqua', email: 'northbear@lights.org'}),
-    ]);
-  })
-    
+    beforeEach(async () => {
+      await Reader.destroy({ where: {}});
+      readers = await Promise.all([
+        Reader.create({name: 'Joe Abercrombie',email: 'firstlaw@trilogies.com'}),
+        Reader.create({ name: 'Arya Stark', email: 'vmorgul@me.com' }),
+        Reader.create({ name: 'Lyra Belacqua', email: 'northbear@lights.org'}),
+      ]);
+    });
+
     describe('GET /readers', () => {
       it('gets all readers records', async () => {
-        const response = await request(app).get('/reader');
-  
+        const response = await request(app).get('/readers');  
         expect(response.status).to.equal(200);
         expect(response.body.length).to.equal(3);
   
@@ -57,67 +51,68 @@ describe('/readers', () => {
   
           expect(reader.name).to.equal(expected.name);
           expect(reader.email).to.equal(expected.email);
-          this.timeout(0);
         });
       });
     });
     describe('GET /readers/:id', () => {
       it('gets readers record by id', async () => {
         const reader = readers[0];
-        const response = await request(app).get(`/reader/${reader.id}`);
-  
+        const response = await request(app).get(`/readers/${reader.id}`);
         expect(response.status).to.equal(200);
         expect(response.body.name).to.equal(reader.name);
         expect(response.body.email).to.equal(reader.email);
       });
+
       it('returns a 404 if the reader does not exist', async () => {
-        const response = await request(app).get('/reader/12345');
-  
+        const response = await request(app).get('/readers/12345');
+        console.log(response.body);
         expect(response.status).to.equal(404);
+        // expect(response.body.error).to.equal('The reader could not be found.');
+      });
+      it('returns an error body if the reader does not exist', async () => {
+        const response = await request(app).get('/readers/12345');
+        console.log(response.body.error);
         expect(response.body.error).to.equal('The reader could not be found.');
-        this.timeout(0);
       });
     });
-    describe('PATCH /readers/:id', () => {
-      it('updates readers email by id', async () => {
-        const reader = readers[0];
-        const response = await request(app)
-          .patch(`/reader/${reader.id}`)
-          .send({ email: 'miss_e_bennet@gmail.com' });
-        const updatedReaderRecord = await Reader.findByPk(reader.id, {
-          raw: true,
-        });
-        expect(response.status).to.equal(200);
-        expect(updatedReaderRecord.email).to.equal('miss_e_bennet@gmail.com');
-        this.timeout(0);
-      });
-    });
+  //   describe('PATCH /readers/:id', () => {
+  //     it('updates readers email by id', async () => {
+  //       const reader = readers[0];
+  //       const response = await request(app)
+  //         .patch(`/reader/${reader.id}`)
+  //         .send({ email: 'miss_e_bennet@gmail.com' });
+  //       const updatedReaderRecord = await Reader.findByPk(reader.id, {
+  //         raw: true,
+  //       });
+  //       expect(response.status).to.equal(200);
+  //       expect(updatedReaderRecord.email).to.equal('miss_e_bennet@gmail.com');
+  //       this.timeout(0);
+  //     });
+  //     it('returns a 404 if the reader does not exist', async () => {
+  //       const response = await request(app)
+  //         .patch('/reader/12345')
+  //         .send({ email: 'some_new_email@gmail.com' });
   
-      it('returns a 404 if the reader does not exist', async () => {
-        const response = await request(app)
-          .patch('/reader/12345')
-          .send({ email: 'some_new_email@gmail.com' });
+  //       expect(response.status).to.equal(404);
+  //       expect(response.body.error).to.equal('The reader could not be found.');
+  //       this.timeout(0);
+  //     });
+  //   });
+  //   describe('DELETE /readers/:id', () => {
+  //     it('deletes reader record by id', async () => {
+  //       const reader = readers[0];
+  //       const response = await request(app).delete(`/reader/${reader.id}`);
+  //       const deletedReader = await Reader.findByPk(reader.id, { raw: true });
   
-        expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal('The reader could not be found.');
-        this.timeout(0);
-      });
-    describe('DELETE /readers/:id', () => {
-      it('deletes reader record by id', async () => {
-        const reader = readers[0];
-        const response = await request(app).delete(`/reader/${reader.id}`);
-        const deletedReader = await Reader.findByPk(reader.id, { raw: true });
-  
-        expect(response.status).to.equal(204);
-        expect(deletedReader).to.equal(null);
-      });
-    });
-  
-      it('returns a 404 if the reader does not exist', async () => {
-        const response = await request(app).delete('/readers/12345');
-        expect(response.status).to.equal(404);
-        expect(response.body.error).to.equal('The reader could not be found.');
-        this.timeout(0);
-      });
-  });
+  //       expect(response.status).to.equal(204);
+  //       expect(deletedReader).to.equal(null);
+  //     });  
+  //     it('returns a 404 if the reader does not exist', async () => {
+  //       const response = await request(app).delete('/readers/12345');
+  //       expect(response.status).to.equal(404);
+  //       expect(response.body.error).to.equal('The reader could not be found.');
+  //       this.timeout(0);
+  //     });
+  // });
+});
 });
