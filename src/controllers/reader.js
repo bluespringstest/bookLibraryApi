@@ -33,18 +33,46 @@ exports.readById = async(req, res) => {
 
 exports.update = async(req, res) => {
     const updateData = req.body;
-    const readerId = req.params;
-    try{
-        const [ updatedRows ] = await Reader.update(updateData, { where: {id: readerId} });
-        if(!updatedRows){
-            res.sendStatus(404).json('The reader could not be found.')
+    const readerId = req.params.id;
+    try {
+        // const reader = await Reader.findByPk(readerId)
+        // reader.email = updateData.email
+        // const updatedReader = await reader.save();
+        // console.log(updatedReader)
+        const reader = await Reader.findByPk(readerId);
+        const updatedRows = await Reader.update(updateData, {where: {id: readerId} });
+        console.log(reader)
+         if (!reader)
+         try {
+            throw 'The reader could not be found.'
+        } catch (e) {
+            res.status(404).send({error: e})
         }
-        else {
-            res.status(200).send();
-        }
-    } catch(err){
-        res.status(404).json('The reader could not be found.')
+         else {
+             res.sendStatus(200).send(updatedRows);
+         }
+    } catch (err) {
+        res.sendStatus(err);
     }
-};
+}
 
-exports.delete = async(req, res) => {};
+exports.delete = async(req, res) => {
+    const readerId = req.params.id;
+    console.log(readerId)
+    try {
+        const reader = await Reader.findByPk(readerId);
+        const deletedRows = await Reader.destroy({where: {id: readerId}});
+        if (!reader)
+        try {
+           throw 'The reader could not be found.'
+       } catch (e) {
+           res.status(404).send({error: e})
+       }
+        else {
+            res.sendStatus(204).send(deletedRows);
+        }
+   } catch (err) {
+       res.sendStatus(err);
+   }
+
+};

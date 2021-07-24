@@ -65,54 +65,50 @@ describe('with records in the database', () => {
 
       it('returns a 404 if the reader does not exist', async () => {
         const response = await request(app).get('/readers/12345');
-        console.log(response.body);
         expect(response.status).to.equal(404);
-        // expect(response.body.error).to.equal('The reader could not be found.');
       });
       it('returns an error body if the reader does not exist', async () => {
         const response = await request(app).get('/readers/12345');
-        console.log(response.body.error);
         expect(response.body.error).to.equal('The reader could not be found.');
       });
     });
-  //   describe('PATCH /readers/:id', () => {
-  //     it('updates readers email by id', async () => {
-  //       const reader = readers[0];
-  //       const response = await request(app)
-  //         .patch(`/reader/${reader.id}`)
-  //         .send({ email: 'miss_e_bennet@gmail.com' });
-  //       const updatedReaderRecord = await Reader.findByPk(reader.id, {
-  //         raw: true,
-  //       });
-  //       expect(response.status).to.equal(200);
-  //       expect(updatedReaderRecord.email).to.equal('miss_e_bennet@gmail.com');
-  //       this.timeout(0);
-  //     });
-  //     it('returns a 404 if the reader does not exist', async () => {
-  //       const response = await request(app)
-  //         .patch('/reader/12345')
-  //         .send({ email: 'some_new_email@gmail.com' });
+    describe('PATCH /readers/:id', () => {
+      it('updates readers email by id', async () => {
+        const response = await request(app).get('/readers');
+        const reader = response.body[0];
+        const updatedReaderResponse = await request(app)
+          .patch(`/readers/${reader.id}`)
+          .send({ email: 'miss_e_bennet@gmail.com' });
+        const updatedReaderRecord = await Reader.findByPk(reader.id, {
+          raw: true,
+        });
+        expect(updatedReaderResponse.status).to.equal(200);
+        expect(updatedReaderRecord.email).to.equal('miss_e_bennet@gmail.com');
+      });
+      it('returns a 404 if the reader does not exist', async () => {
+        const response = await request(app)
+          .patch('/readers/12345')
+          .send({ email: 'some_new_email@gmail.com' });
+          console.log(response.params)
   
-  //       expect(response.status).to.equal(404);
-  //       expect(response.body.error).to.equal('The reader could not be found.');
-  //       this.timeout(0);
-  //     });
-  //   });
-  //   describe('DELETE /readers/:id', () => {
-  //     it('deletes reader record by id', async () => {
-  //       const reader = readers[0];
-  //       const response = await request(app).delete(`/reader/${reader.id}`);
-  //       const deletedReader = await Reader.findByPk(reader.id, { raw: true });
-  
-  //       expect(response.status).to.equal(204);
-  //       expect(deletedReader).to.equal(null);
-  //     });  
-  //     it('returns a 404 if the reader does not exist', async () => {
-  //       const response = await request(app).delete('/readers/12345');
-  //       expect(response.status).to.equal(404);
-  //       expect(response.body.error).to.equal('The reader could not be found.');
-  //       this.timeout(0);
-  //     });
-  // });
+        expect(response.status).to.equal(404);
+        expect(response.body.error).to.equal('The reader could not be found.');
+      });
+    });
+    describe('DELETE /readers/:id', () => {
+      it('deletes reader record by id', async () => {
+        const response = await request(app).get('/readers');
+        const reader = response.body[0];
+        const updatedReaderResponse = await request(app).delete(`/readers/${reader.id}`);
+        const deletedReader = await Reader.findByPk(reader.id, { raw: true });
+        expect(updatedReaderResponse.status).to.equal(204);
+        expect(deletedReader).to.equal(null);
+      });  
+      it('returns a 404 if the reader does not exist', async () => {
+        const response = await request(app).delete('/readers/12345');
+        expect(response.status).to.equal(404);
+        expect(response.body.error).to.equal('The reader could not be found.');
+      });
+  });
 });
 });
