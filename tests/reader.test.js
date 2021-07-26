@@ -15,6 +15,7 @@ describe('with no records in the database', () => {
         const response = await request(app).post('/readers').send({
           name: 'Elizabeth Bennet',
           email: 'future_ms_darcy@gmail.com',
+          password: 'thefutu'
         });
         const newReaderRecord = await Reader.findByPk(response.body.id, {
           raw: true,
@@ -34,9 +35,9 @@ describe('with records in the database', () => {
     beforeEach(async () => {
       await Reader.destroy({ where: {}});
       readers = await Promise.all([
-        Reader.create({name: 'Joe Abercrombie',email: 'firstlaw@trilogies.com'}),
-        Reader.create({ name: 'Arya Stark', email: 'vmorgul@me.com' }),
-        Reader.create({ name: 'Lyra Belacqua', email: 'northbear@lights.org'}),
+        Reader.create({name: 'Joe Abercrombie',email: 'firstlaw@trilogies.com', lassword: 'password'}),
+        Reader.create({ name: 'Arya Stark', email: 'vmorgul@me.com' , password: 'lassword'}),
+        Reader.create({ name: 'Lyra Belacqua', email: 'northbear@lights.org', password: 'lassword'}),
       ]);
     });
 
