@@ -1,5 +1,6 @@
 const express = require('express');
 const readersRouter = require('./routes/reader')
+const bookRouter = require('./routes/book')
 
 const app = express();
 
@@ -10,5 +11,7 @@ app.get('/', (req, res) =>{
 });
 
 app.use('/readers', readersRouter);
+
+app.use('/book', bookRouter);
 
 module.exports = app;

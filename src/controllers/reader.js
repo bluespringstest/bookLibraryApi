@@ -35,10 +35,6 @@ exports.update = async(req, res) => {
     const updateData = req.body;
     const readerId = req.params.id;
     try {
-        // const reader = await Reader.findByPk(readerId)
-        // reader.email = updateData.email
-        // const updatedReader = await reader.save();
-        // console.log(updatedReader)
         const reader = await Reader.findByPk(readerId);
         const updatedRows = await Reader.update(updateData, {where: {id: readerId} });
         console.log(reader)
