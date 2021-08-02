@@ -8,8 +8,8 @@ exports.create = async (req, res) => {
 
 exports.read = async (_, res) => {
     try{
-        const look = await Book.findAll();
-    res.status(200).json(look);
+        const book = await Book.findAll();
+    res.status(200).json(book);
     } catch(err){
         console.log(err)
     }
@@ -17,16 +17,16 @@ exports.read = async (_, res) => {
 
 exports.readById = async(req, res) => {
     const bookId = req.params.id;
-    const Book = await Book.findByPk(bookId);
+    const book = await Book.findByPk(bookId);
 
-    if(!Book){
+    if(!book){
         try {
-            throw 'The Book could not be found.'
+            throw 'The book could not be found.'
         } catch (e) {
             res.status(404).send({error: e})
         }
     } else {
-        res.status(200).json(Book);
+        res.status(200).json(book);
     }
 
 };
@@ -35,12 +35,11 @@ exports.update = async(req, res) => {
     const updateData = req.body;
     const bookId = req.params.id;
     try {
-        const Book = await Book.findByPk(bookId);
+        const book = await Book.findByPk(bookId);
         const updatedRows = await Book.update(updateData, {where: {id: bookId} });
-        console.log(Book)
-         if (!Book)
+         if (!book)
          try {
-            throw 'The Book could not be found.'
+            throw 'The book could not be found.'
         } catch (e) {
             res.status(404).send({error: e})
         }
@@ -55,11 +54,11 @@ exports.update = async(req, res) => {
 exports.delete = async(req, res) => {
     const bookId = req.params.id;
     try {
-        const Book = await Book.findByPk(bookId);
+        const book = await Book.findByPk(bookId);
         const deletedRows = await Book.destroy({where: {id: bookId}});
-        if (!Book)
+        if (!book)
         try {
-           throw 'The Book could not be found.'
+           throw 'The book could not be found.'
        } catch (e) {
            res.status(404).send({error: e})
        }

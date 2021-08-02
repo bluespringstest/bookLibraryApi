@@ -90,7 +90,6 @@ describe('with records in the database', () => {
         const response = await request(app)
           .patch('/readers/12345')
           .send({ email: 'some_new_email@gmail.com' });
-          console.log(response.params)
   
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal('The reader could not be found.');
