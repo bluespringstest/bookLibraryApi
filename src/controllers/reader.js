@@ -37,7 +37,6 @@ exports.update = async(req, res) => {
     try {
         const reader = await Reader.findByPk(readerId);
         const updatedRows = await Reader.update(updateData, {where: {id: readerId} });
-        console.log(reader)
          if (!reader)
          try {
             throw 'The reader could not be found.'
@@ -54,7 +53,6 @@ exports.update = async(req, res) => {
 
 exports.delete = async(req, res) => {
     const readerId = req.params.id;
-    console.log(readerId)
     try {
         const reader = await Reader.findByPk(readerId);
         const deletedRows = await Reader.destroy({where: {id: readerId}});
