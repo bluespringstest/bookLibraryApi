@@ -87,9 +87,7 @@ describe('with records in the database', () => {
       it('returns a 404 if the book does not exist', async () => {
         const response = await request(app)
           .patch('/book/12345')
-          .send({ title: 'some_new_email@gmail.com' });
-          console.log(response.params)
-  
+          .send({ title: 'some_new_email@gmail.com' });  
         expect(response.status).to.equal(404);
         expect(response.body.error).to.equal('The book could not be found.');
       });
