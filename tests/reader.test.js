@@ -25,6 +25,18 @@ describe('with no records in the database', () => {
         expect(newReaderRecord.name).to.equal('Elizabeth Bennet');
         expect(newReaderRecord.email).to.equal('future_ms_darcy@gmail.com');
       });
+      // it('errors when the name is an empty string', async () => {
+      //   const response = await request(app).post('/readers').send({
+      //     name: '',
+      //     email: 'bob_builder@gmail.com',
+      //     password: 'craftsmaguv'
+      //   });
+      //   const newReaderRecord = await Reader.findByPk(response.body.id, {
+      //     raw: true,
+      //   });
+      //   expect(response.status).to.equal(400);
+      //   expect(response.body.errors.length).to.equal(1);
+      // });
     });
   });
 
