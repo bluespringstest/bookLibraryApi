@@ -1,10 +1,8 @@
 const { Book } = require('../models');
+const { createItem } = require('../controllers/helper')
 
 
-exports.create = async (req, res) => {
-    const newBook = await Book.create(req.body);
-    res.status(201).json(newBook);
-}
+exports.create = async (req, res) => createItem(res, 'book', req.body);
 
 exports.read = async (_, res) => {
     try{
