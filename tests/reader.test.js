@@ -66,6 +66,7 @@ describe('with records in the database', () => {
         });
       });
     });
+
     describe('GET /readers/:id', () => {
       it('gets readers record by id', async () => {
         const reader = readers[0];
@@ -74,16 +75,16 @@ describe('with records in the database', () => {
         expect(response.body.name).to.equal(reader.name);
         expect(response.body.email).to.equal(reader.email);
       });
-
       it('returns a 404 if the reader does not exist', async () => {
         const response = await request(app).get('/readers/12345');
         expect(response.status).to.equal(404);
       });
       it('returns an error body if the reader does not exist', async () => {
         const response = await request(app).get('/readers/12345');
-        expect(response.body.error).to.equal('The reader could not be found.');
+        expect(response.body.error.error).to.equal('The reader could not be found.');
       });
     });
+
     describe('PATCH /readers/:id', () => {
       it('updates readers email by id', async () => {
         const response = await request(app).get('/readers');
