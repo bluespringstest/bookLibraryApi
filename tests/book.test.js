@@ -68,7 +68,7 @@ describe('with records in the database', () => {
       });
       it('returns an error body if the book does not exist', async () => {
         const response = await request(app).get('/book/12345');
-        expect(response.body.error).to.equal('The book could not be found.');
+        expect(response.body.error.error).to.equal('The book could not be found.');
       });
     });
     describe('PATCH /books/:id', () => {
