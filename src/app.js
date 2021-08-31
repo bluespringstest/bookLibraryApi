@@ -2,7 +2,7 @@ const express = require('express');
 const readersRouter = require('./routes/reader');
 const bookRouter = require('./routes/book');
 const authorRouter = require('./routes/author');
-const genreRouter = require('./routes/author');
+const genreRouter = require('./routes/genre');
 
 const app = express();
 
