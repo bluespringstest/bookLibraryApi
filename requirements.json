@@ -3,6 +3,7 @@
 		"name":"Create library account", 
 		"user-story":
 		"As a library customer I want to create an account with my name, email address and password So I can list and borrow books from the online library",
+		"status": "complete",
 		"requirement":{
 			"Reader": {
 			"name":{
@@ -32,6 +33,7 @@
 	"2":{
 		"name":"Don't return library account password", 
 		"user-story":"As a library customer I want my password to not be returned from the API So my account is more secure",
+		"status": "complete",
 		"requirement":{
 			"Reader":{
 				"password":{
@@ -43,6 +45,7 @@
 	"3":{
 		"name":"Email validation on sign up",
 		"user-story":"As a library customer I want to receive an error if the email address I sign up with is not valid So I can receive emails",
+		"status": "complete",
 		"requirement":{
 			"Reader":{
 				"email": {
@@ -55,6 +58,7 @@
 	"4":{
 		"name":"Password length validation on sign up", 
 		"user-story":"As a library customer I want to receive an error if the password I sign up with is less than 8 characters long So my account is secure",
+		"status": "to-test",
 		"requirement":{
 			"Reader":{
 				"password": {
@@ -88,6 +92,7 @@
 	"6":{
 		"name":"Title and author should be mandatory", 
 		"user-story":"As a library customer I want all book listings to have at least a title and an author So I know what I'm looking at.",
+		"status": "complete",
 		"requirement":{
 			"Book":{
 				"title":{
@@ -102,6 +107,7 @@
 	"7":{
 		"name":"Display books for lending", 
 		"user-story":"As a library customer I want to see a list of all books So I can find books to borrow.",
+		"status": "complete",
 		"requirement":{
 			"Book": {
 				"function":{

@@ -1,5 +1,8 @@
 const express = require('express');
-const readersRouter = require('./routes/reader')
+const readersRouter = require('./routes/reader');
+const bookRouter = require('./routes/book');
+const authorRouter = require('./routes/author');
+const genreRouter = require('./routes/genre');
 
 const app = express();
 
@@ -10,5 +13,11 @@ app.get('/', (req, res) =>{
 });
 
 app.use('/readers', readersRouter);
+
+app.use('/book', bookRouter);
+
+app.use('/author', authorRouter);
+
+app.use('/genre', genreRouter);
 
 module.exports = app;
