@@ -3,7 +3,7 @@
 		"name":"Create library account", 
 		"user-story":
 		"As a library customer I want to create an account with my name, email address and password So I can list and borrow books from the online library",
-		"status": "complete",
+		"status": "to-test",
 		"requirement":{
 			"Reader": {
 			"name":{
@@ -33,7 +33,7 @@
 	"2":{
 		"name":"Don't return library account password", 
 		"user-story":"As a library customer I want my password to not be returned from the API So my account is more secure",
-		"status": "complete",
+		"status": "to-test",
 		"requirement":{
 			"Reader":{
 				"password":{
@@ -45,7 +45,7 @@
 	"3":{
 		"name":"Email validation on sign up",
 		"user-story":"As a library customer I want to receive an error if the email address I sign up with is not valid So I can receive emails",
-		"status": "complete",
+		"status": "to-test",
 		"requirement":{
 			"Reader":{
 				"email": {
@@ -70,6 +70,7 @@
 	"5":{
 		"name":"Add book listings for lending", 
 		"user-story":"As a book lender I want to be able to create a book listing on my account with a title, author, genre and ISBN number So people can loan out my books",
+		"status": "to-test",
 		"requirement":{
 			"Book": {
 				"title":{
@@ -92,7 +93,7 @@
 	"6":{
 		"name":"Title and author should be mandatory", 
 		"user-story":"As a library customer I want all book listings to have at least a title and an author So I know what I'm looking at.",
-		"status": "complete",
+		"status": "to-test",
 		"requirement":{
 			"Book":{
 				"title":{
@@ -107,7 +108,7 @@
 	"7":{
 		"name":"Display books for lending", 
 		"user-story":"As a library customer I want to see a list of all books So I can find books to borrow.",
-		"status": "complete",
+		"status": "to-test",
 		"requirement":{
 			"Book": {
 				"function":{
@@ -120,6 +121,7 @@
 	"8":{
 		"name":"Search for books by fields", 
 		"user-story":"As a library customer I want to be able to search for books with a specific title, author, genre or ISBN So I can find books I am interested in.",
+		"status": "to-test",
 		"requirement":{
 			"Book": {
 				"title":{
@@ -147,6 +149,743 @@
 					"output-action": "all books === ISBN list"
 				}
 			}
+		}
+	},
+	"9":{
+		"name":"Display book details", 
+		"user-story":"As a library customer I want to be able to see the details of a book So I can make a decision about whether I want to borrow it.",
+		"status": "to-test",
+		"requirement":{
+			"Book": {
+				"title":{
+				"function":{
+					"input-action": "search by title",
+					"output-action": "all books === title list"
+				}
+				}				
+			},
+			"author": {
+				"function":{
+					"input-action": "search by author",
+					"output-action": "all books === author list"
+				}
+			},
+			"genre": {
+				"function":{
+					"input-action": "search by genre",
+					"output-action": "all books === genre list"
+				}
+			},
+			"ISBN": {
+				"function":{
+					"input-action": "search by ISBN",
+					"output-action": "all books === ISBN list"
+				}
+			}
+		}
+	},
+	{
+		"1":{
+			"name":"Create library account", 
+			"user-story":
+			"As a library customer I want to create an account with my name, email address and password So I can list and borrow books from the online library",
+			"status": "to-test",
+			"requirement":{
+				"Reader": {
+					"name":{
+						"type":"string",
+						"reader-validation": {
+							"n1": "name must be non-empty",
+							"n2":"key field"
+						}
+					},
+					"email-address": {
+						"type":"string",
+						"email-validation":{
+							"e1": "email-address must be a valid format",
+							"e2":"key field",
+							"e3":"unique"
+						}
+					},
+					"password": {
+						"type":"string",
+						"password-validation": {
+							"p1": "password must be at least 8 characters long",
+							"p2": "password must include a mix of letters, numbers, and symbols",
+							"p3":"key field"
+						}
+					}
+				}
+			}
+		},
+		"2":{
+			"name":"Don't return library account password", 
+			"user-story":"As a library customer I want my password to not be returned from the API So my account is more secure",
+			"status": "to-test",
+			"requirement":{
+				"Reader":{
+					"password":{
+						"action": "password must be hashed and never returned in API responses"
+					}
+				}
+			}
+		},
+		"3":{
+			"name":"Email validation on sign up",
+			"user-story":"As a library customer I want to receive an error if the email address I sign up with is not valid So I can receive emails",
+			"status": "to-test",
+			"requirement":{
+				"Reader":{
+					"email": {
+						"type":"string",
+						"email-validation":"email-address must be a valid format"
+					}
+				}
+			}
+		},
+		"4":{
+			"name":"Password length validation on sign up", 
+			"user-story":"As a library customer I want to receive an error if the password I sign up with is less than 8 characters long So my account is secure",
+			"status": "to-test",
+			"requirement":{
+				"Reader":{
+					"password": {
+						"password-validation":"password must be at least 8 characters long"
+					}
+				}
+			}
+		},
+		"5":{
+			"name":"Add book listings for lending", 
+			"user-story":"As a book lender I want to be able to create a book listing on my account with a title, author, genre and ISBN number So people can loan out my books",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"title":{
+						"type":"string",
+						"title-validation": "title must be non-empty"
+					},
+					"author": {
+						"type":"string",
+						"author-validation":"author must be non-empty"
+					},
+					"genre": {
+						"type":"string",
+						"genre-validation":"genre must be selected from predefined list or be a valid string"
+					},
+					"ISBN": {
+						"type":"string",
+						"ISBN-validation":"ISBN must be a valid format"
+					}
+				}
+			}
+		},
+		"6":{
+			"name":"Title and author should be mandatory", 
+			"user-story":"As a library customer I want all book listings to have at least a title and an author So I know what I'm looking at.",
+			"status": "to-test",
+			"requirement":{
+				"Book":{
+					"title":{
+						"title-validation": "key field, must be non-empty"
+					},
+					"author":{
+						"author-validation": "key field, must be non-empty"
+					}
+				}
+			}
+		},
+		"7":{
+			"name":"Display books for lending", 
+			"user-story":"As a library customer I want to see a list of all books So I can find books to borrow.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"function":{
+						"input-action": "retrieve all listings",
+						"output-action": "display list of books with options to borrow"
+					}
+				}
+			}
+		},
+		"8":{
+			"name":"Search for books by fields", 
+			"user-story":"As a library customer I want to be able to search for books with a specific title, author, genre or ISBN So I can find books I am interested in.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"search":{
+						"function":{
+							"input-action": "query by title, author, genre, or ISBN",
+							"output-action": "return a list of books matching the search criteria"
+						}
+					}
+				}
+			}
+		},
+		"9":{
+			"name":"Display book details", 
+			"user-story":"As a library customer I want to be able to see the details of a book So I can make a decision about whether I want to borrow it.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"details":{
+						"function":{
+							"input-action": "request details for a specific book",
+							"output-action": "display detailed information including title, author, genre, ISBN, availability status, and lending terms"
+						}
+					}
+				}
+			}
+		},
+		"10":{
+			"name":"Borrow a book", 
+			"user-story":"As a library customer I want to be able to borrow a book So I can read it and return it later.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"borrow":{
+						"function":{
+							"input-action": "request to borrow a book",
+							"output-action": "update book status to borrowed and record borrower details and due date"
+						}
+					}
+				}
+			}
+		},
+		"11":{
+			"name":"Return a borrowed book", 
+			"user-story":"As a library customer I want to be able to return a book So I can complete the borrowing cycle and make the book available to others.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"return":{
+						"function":{
+							"input-action": "report book as returned",
+							"output-action": "update book status to available and clear borrower details"
+						}
+					}
+				}
+			}
+		},
+		"12":{
+			"name":"Purchase a book", 
+			"user-story":"As a library customer I want to be able to purchase a book So I can own a copy of it.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"purchase":{
+						"function":{
+							"input-action": "initiate purchase of a book",
+							"output-action": "process payment and update book status to sold"
+						}
+					}
+				}
+			}
+		},
+		"13":{
+			"name":"List a book for sale", 
+			"user-story":"As a bookshop or library I want to list books for sale So I can sell them to other bookshops or libraries.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"sale-listing":{
+						"function":{
+							"input-action": "create sale listing with price and condition",
+							"output-action": "display book in marketplace with listed price and condition"
+						}
+					}
+				}
+			}
+		},
+		"14":{
+			"name":"Review and rate a book", 
+			"user-story":"As a library customer I want to leave a review and rating for a book So others can benefit from my experience.",
+			"status": "to-test",
+			"requirement":{
+				"Book": {
+					"review":{
+						"function":{
+							"input-action": "submit a review and rating",
+							"output-action": "store and display the review and rating with the book details"
+						}
+					}
+				}
+			}
+		},
+		"15":{
+			"name":"Web and mobile platform compatibility", 
+			"user-story":"As a user I want to access the library or bookshop app on both web and mobile platforms So I can use the service wherever I am.",
+			"status": "to-test",
+			"requirement":{
+				"Platform": {
+					"compatibility":{
+						"responsive-design": "The app must be responsive and compatible with a wide range of devices and screen sizes.",
+						"mobile-app": "Native mobile applications must be available for iOS and Android."
+					}
+				}
+			}
+		},
+		"16":{
+			"name":"Secure payment processing", 
+			"user-story":"As a user I want my payment information to be securely processed So I can safely purchase or borrow books.",
+			"status": "to-test",
+			"requirement":{
+				"Payment": {
+					"security":{
+						"payment-gateway": "Utilize a secure and reliable payment gateway with PCI DSS compliance.",
+						"data-encryption": "All sensitive data, including payment information, must be encrypted both in transit and at rest."
+					}
+				}
+			}
+		},
+		"17":{
+			"name":"User profile management", 
+			"user-story":"As a user I want to manage my personal profile and update my information So I can keep my account up-to-date.",
+			"status": "to-test",
+			"requirement":{
+				"Reader": {
+					"profile-management":{
+						"function":{
+							"input-action": "update profile information",
+							"output-action": "reflect changes in user profile"
+						}
+					}
+				}
+			}
+		},
+		"18":{
+			"name":"Notifications and reminders", 
+			"user-story":"As a user I want to receive notifications and reminders about borrowed books' due dates So I can return them on time.",
+			"status": "to-test",
+			"requirement":{
+				"Notification": {
+					"reminders":{
+						"function":{
+							"input-action": "schedule notifications based on borrowing due dates",
+							"output-action": "send timely reminders to users via email or app notifications"
+						}
+					}
+				}
+			}
+		}
+	},
+	{
+		"1":{
+			"name":"User Authentication: Registration",
+			"user-story":
+			"As a new user, I want to register for an account with my name, email address, and password, so I can access the library app and borrow/buy books.",
+			"status": "to-test",
+			"requirement":{
+				"User": {
+				"name":{
+						"type":"string",
+						"validation": {
+							"min_length": 2,
+							"max_length": 100,
+							"required": true
+						}
+					},
+				"email": {
+					"type":"string",
+					"validation":{
+						"format": "email",
+						"required": true
+					}
+				},
+				"password": {
+					"type":"string",
+					"validation": {
+						"min_length": 8,
+						"required": true
+					}
+				}
+				}
+			}
+		},
+		"2":{
+			"name":"User Authentication: Secure Password Handling",
+			"user-story":"As a user, I want my password to be securely stored and not displayed in responses, so my account information remains protected.",
+			"status": "to-test",
+			"requirement":{
+				"Auth":{
+					"password_hashing":{
+						"action":"password is hashed and salted before storage"
+					}
+				}
+			}
+		},
+		"3":{
+			"name":"Email Validation on Registration",
+			"user-story":"As a user, I want to receive an error message if the email address I provide during registration is invalid, so I can correct it.",
+			"status": "to-test",
+			"requirement":{
+				"User":{
+					"email": {
+						"type":"string",
+						"validation":"valid email format"
+					}
+				}
+			}
+		},
+	
+		"4":{
+			"name":"Password Complexity Enforcement",
+			"user-story":"As a user, I want to receive an error if my password is less than 8 characters long, so I can create a stronger password for security.",
+			"status": "to-test",
+			"requirement":{
+				"User": {
+					"password": {
+						"validation": "length >= 8"
+					}
+				}
+			}
+		},
+	
+		"5":{
+			"name":"Book Listing Creation (Lending)",
+			"user-story":"As a book lender, I want to create listings for books on my account with details such as title, author, genre, and ISBN, enabling others to borrow them.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"title":{
+						"type":"string",
+						"validation": "required, min_length: 3, max_length: 255"
+					},
+					"author": {
+						"type":"string",
+						"validation": "required, min_length: 2, max_length: 100"
+					},
+					"genre": {
+						"type":"string",
+						"validation": "required,  allowed values: predefined list of genres"
+					},
+					"isbn": {
+						"type":"string",
+						"validation": "required, ISBN 10 or ISBN 13 format validation"
+					}
+				}
+			}
+		},
+		"6":{
+			"name":"Mandatory Fields for Book Listing",
+			"user-story":"As a user, I want all book listings to require a title and author; otherwise, I should be prevented from creating the listing.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing":{
+					"title":{
+					"validation": "required"
+				},
+				"author":{
+				"validation":"required"
+					}
+				}
+			}
+		},
+		"7":{
+			"name":"Display Book Listings",
+			"user-story":"As a user, I want to see a list of all available books (shelved by the lender/library), so I can browse for items to borrow.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"display": {
+						"query": "retrieve all book listings"
+					}
+				}
+			}
+		},
+		"8":{
+			"name":"Book Search Functionality",
+			"user-story":"As a user, I want to be able to search for books using criteria such as title, author, genre, or ISBN, to quickly find books I'm interested in.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"search": {
+						"fields": ["title", "author", "genre", "isbn"],
+						"type": "text",
+						"result": "return matching book listings"
+					}
+				}
+			}
+		},
+		"9":{
+			"name":"Detailed Book Information Display",
+			"user-story":"As a user, I want to view detailed information about a book, including its title, author, genre, ISBN, availability, and potentially a description or cover image, to make informed borrowing decisions.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"display": {
+						"fields":["title", "author", "genre", "isbn", "description", "cover_image", "availability"]
+					}
+				}
+			}
+		},	
+		"10":{
+			"name":"Book Borrowing/Returning",
+			"user-story":"As a user, I want to be able to borrow a book by submitting a request, and return a book once I'm finished with it. The app should track the status of borrowed books.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"borrow": {
+						"action": "submit borrow request",
+						"status": ["pending", "approved", "rejected"]
+					},
+					"return":{
+						"action": "mark book as returned"
+					}
+				},
+				"User": {
+					"borrowed_books": {
+						"type":"array",
+						"include":"book_listing_id, borrow_date, return_date, status"
+					}
+				}
+			}
+		},
+		"11":{
+		"name":"Selling Books to Libraries/Bookshops",
+		"user-story":"As a book lender, I want to list my books for sale to libraries and bookshops, including details like condition, price, and availability.",
+		"status":"to-test",
+		"requirement":{
+		"BookForSale": {
+			"title": {
+				"type": "string",
+				"validation": "required, min_length: 3, max_length: 255"
+			},
+			"author": {
+				"type": "string",
+				"validation": "required, min_length: 2, max_length: 100"
+			},
+			"genre": {
+				"type": "string",
+				"validation": "required,  allowed values: predefined list of genres"
+			},
+			"isbn": {
+				"type": "string",
+				"validation": "required, ISBN 10 or ISBN 13 format validation"
+			},
+			"condition": {
+				"type": "string",
+				"validation": "allowed values: 'new', 'like new', 'good', 'acceptable', 'fair'"
+			},
+			"price": {
+				"type": "number",
+				"validation": "required, positive value"
+			},
+			"availability": {
+				"type": "boolean",
+				"validation": "required"
+			}
+		}
+		}
+	},
+	{
+		"1":{
+			"name":"User Authentication: Registration",
+			"user-story":
+			"As a new user, I want to register for an account with my name, email address, and password, so I can access the library app and borrow/buy books.",
+			"status": "to-test",
+			"requirement":{
+				"User": {
+				"name":{
+						"type":"string",
+						"validation": {
+							"min_length": 2,
+							"max_length": 100,
+							"required": true
+						}
+					},
+				"email": {
+					"type":"string",
+					"validation":{
+						"format": "email",
+						"required": true
+					}
+				},
+				"password": {
+					"type":"string",
+					"validation": {
+						"min_length": 8,
+						"required": true
+					}
+				}
+				}
+			}
+		},
+		"2":{
+			"name":"User Authentication: Secure Password Handling",
+			"user-story":"As a user, I want my password to be securely stored and not displayed in responses, so my account information remains protected.",
+			"status": "to-test",
+			"requirement":{
+				"Auth":{
+					"password_hashing":{
+						"action":"password is hashed and salted before storage"
+					}
+				}
+			}
+		},
+		"3":{
+			"name":"Email Validation on Registration",
+			"user-story":"As a user, I want to receive an error message if the email address I provide during registration is invalid, so I can correct it.",
+			"status": "to-test",
+			"requirement":{
+				"User":{
+					"email": {
+						"type":"string",
+						"validation":"valid email format"
+					}
+				}
+			}
+		},
+	
+		"4":{
+			"name":"Password Complexity Enforcement",
+			"user-story":"As a user, I want to receive an error if my password is less than 8 characters long, so I can create a stronger password for security.",
+			"status": "to-test",
+			"requirement":{
+				"User": {
+					"password": {
+						"validation": "length >= 8"
+					}
+				}
+			}
+		},
+	
+		"5":{
+			"name":"Book Listing Creation (Lending)",
+			"user-story":"As a book lender, I want to create listings for books on my account with details such as title, author, genre, and ISBN, enabling others to borrow them.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"title":{
+						"type":"string",
+						"validation": "required, min_length: 3, max_length: 255"
+					},
+					"author": {
+						"type":"string",
+						"validation": "required, min_length: 2, max_length: 100"
+					},
+					"genre": {
+						"type":"string",
+						"validation": "required,  allowed values: predefined list of genres"
+					},
+					"isbn": {
+						"type":"string",
+						"validation": "required, ISBN 10 or ISBN 13 format validation"
+					}
+				}
+			}
+		},
+		"6":{
+			"name":"Mandatory Fields for Book Listing",
+			"user-story":"As a user, I want all book listings to require a title and author; otherwise, I should be prevented from creating the listing.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing":{
+					"title":{
+					"validation": "required"
+				},
+				"author":{
+				"validation":"required"
+					}
+				}
+			}
+		},
+		"7":{
+			"name":"Display Book Listings",
+			"user-story":"As a user, I want to see a list of all available books (shelved by the lender/library), so I can browse for items to borrow.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"display": {
+						"query": "retrieve all book listings"
+					}
+				}
+			}
+		},
+		"8":{
+			"name":"Book Search Functionality",
+			"user-story":"As a user, I want to be able to search for books using criteria such as title, author, genre, or ISBN, to quickly find books I'm interested in.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"search": {
+						"fields": ["title", "author", "genre", "isbn"],
+						"type": "text",
+						"result": "return matching book listings"
+					}
+				}
+			}
+		},
+		"9":{
+			"name":"Detailed Book Information Display",
+			"user-story":"As a user, I want to view detailed information about a book, including its title, author, genre, ISBN, availability, and potentially a description or cover image, to make informed borrowing decisions.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"display": {
+						"fields":["title", "author", "genre", "isbn", "description", "cover_image", "availability"]
+					}
+				}
+			}
+		},	
+		"10":{
+			"name":"Book Borrowing/Returning",
+			"user-story":"As a user, I want to be able to borrow a book by submitting a request, and return a book once I'm finished with it. The app should track the status of borrowed books.",
+			"status": "to-test",
+			"requirement":{
+				"BookListing": {
+					"borrow": {
+						"action": "submit borrow request",
+						"status": ["pending", "approved", "rejected"]
+					},
+					"return":{
+						"action": "mark book as returned"
+					}
+				},
+				"User": {
+					"borrowed_books": {
+						"type":"array",
+						"include":"book_listing_id, borrow_date, return_date, status"
+					}
+				}
+			}
+		},
+		"11":{
+		"name":"Selling Books to Libraries/Bookshops",
+		"user-story":"As a book lender, I want to list my books for sale to libraries and bookshops, including details like condition, price, and availability.",
+		"status":"to-test",
+		"requirement":{
+		"BookForSale": {
+			"title": {
+				"type": "string",
+				"validation": "required, min_length: 3, max_length: 255"
+			},
+			"author": {
+				"type": "string",
+				"validation": "required, min_length: 2, max_length: 100"
+			},
+			"genre": {
+				"type": "string",
+				"validation": "required,  allowed values: predefined list of genres"
+			},
+			"isbn": {
+				"type": "string",
+				"validation": "required, ISBN 10 or ISBN 13 format validation"
+			},
+			"condition": {
+				"type": "string",
+				"validation": "allowed values: 'new', 'like new', 'good', 'acceptable', 'fair'"
+			},
+			"price": {
+				"type": "number",
+				"validation": "required, positive value"
+			},
+			"availability": {
+				"type": "boolean",
+				"validation": "required"
+			}
+		}
 		}
 	}
 }
