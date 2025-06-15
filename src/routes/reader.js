@@ -1,16 +1,12 @@
-const express = require('express');
-const readersController = require('../controllers/reader');
+import express from 'express';
+import { create, read, readById, update, deleteReader } from '../controllers/reader.js';
+
 const router = express.Router();
 
-const app = express();
+router.post('/', create);
+router.get('/', read);
+router.get('/:id', readById);
+router.patch('/:id', update);
+router.delete('/:id', deleteReader);
 
-app.use(express.json());
-
-router.post('/', readersController.create);
-router.get('/', readersController.read);
-router.get('/:id', readersController.readById);
-router.patch('/:id', readersController.update);
-router.delete('/:id', readersController.delete);
-
-
-module.exports = router;
+export default router;

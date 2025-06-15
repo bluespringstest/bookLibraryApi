@@ -1,16 +1,12 @@
-const express = require('express');
-const genreController = require('../controllers/genre');
+import express from 'express';
+import { create, read, readById, update, deleteGenre } from '../controllers/genre.js';
+
 const router = express.Router();
 
-const app = express();
+router.post('/', create);
+router.get('/', read);
+router.get('/:id', readById);
+router.patch('/:id', update);
+router.delete('/:id', deleteGenre);
 
-app.use(express.json());
-
-router.post('/', genreController.create);
-router.get('/', genreController.read);
-router.get('/:id', genreController.readById);
-router.patch('/:id', genreController.update);
-router.delete('/:id', genreController.delete);
-
-
-module.exports = router;
+export default router;

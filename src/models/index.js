@@ -1,30 +1,71 @@
-const { Sequelize } = require('sequelize');
-const ReaderModel = require('./reader');
-const BookModel = require('./book');
-const AuthorModel = require('./author');
-const GenreModel = require('./genre');
+import { Sequelize, DataTypes } from 'sequelize';
+import config from '../config/config.js';
+import ReaderModel from './reader.js';
+import BookModel from './book.js';
+import AuthorModel from './author.js';
+import GenreModel from './genre.js';
+import NotificationModel from './notification.js';
+import BorrowingModel, { BORROWING_STATUS } from './borrowing.js';
+import SaleModel from './sale.js';
+import SaleItemModel from './saleItem.js';
+import InventoryTransactionModel from './inventoryTransaction.js';
 
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
+const env = process.env.NODE_ENV || 'development';
+const dbConfig = config.db;
 
-const setupDatabase = () => {
-    const connection = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-        host: DB_HOST,
-        port: DB_PORT,
-        dialect: 'mysql',
-        logging: false
-    });
-    const Reader = ReaderModel(connection, Sequelize);
-    const Book = BookModel(connection, Sequelize);
-    const Author = AuthorModel(connection, Sequelize);
-    const Genre = GenreModel(connection, Sequelize);
+// Initialize Sequelize with config
+const sequelize = new Sequelize(
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
+  {
+    host: dbConfig.host,
+    port: dbConfig.port,
+    dialect: dbConfig.dialect,
+    logging: dbConfig.logging,
+    timezone: '+00:00', // Use UTC
+    define: {
+      timestamps: true,
+      paranoid: true, // Enable soft deletes
+      underscored: true, // Use snake_case for database columns
+    },
+  }
+);
 
-    connection.sync({ alter: true });
-    return {
-        Reader,
-        Book,
-        Author,
-        Genre
-    };
+// Initialize models
+const Reader = ReaderModel(sequelize, DataTypes);
+const Book = BookModel(sequelize, DataTypes);
+const Author = AuthorModel(sequelize, DataTypes);
+const Genre = GenreModel(sequelize, DataTypes);
+const Notification = NotificationModel(sequelize, DataTypes);
+const Borrowing = BorrowingModel(sequelize, DataTypes);
+const Sale = SaleModel(sequelize, DataTypes);
+const SaleItem = SaleItemModel(sequelize, DataTypes);
+const InventoryTransaction = InventoryTransactionModel(sequelize, DataTypes);
+
+// Set up associations
+if (Reader.associate) Reader.associate({ Reader, Book, Notification, Borrowing });
+if (Book.associate) Book.associate({ Book, Author, Genre, Notification, Borrowing });
+if (Author.associate) Author.associate({ Author, Book });
+if (Genre.associate) Genre.associate({ Genre, Book });
+if (Notification.associate) Notification.associate({ Notification, Reader });
+if (Borrowing.associate) Borrowing.associate({ Borrowing, Book, User: Reader });
+if (Sale.associate) Sale.associate({ Sale, SaleItem, InventoryTransaction, User: Reader, Book });
+if (SaleItem.associate) SaleItem.associate({ SaleItem, Sale, Book });
+if (InventoryTransaction.associate) InventoryTransaction.associate({ InventoryTransaction, Book, User: Reader });
+
+// Export models and sequelize instance
+export {
+  sequelize,
+  Sequelize,
+  Reader,
+  Book,
+  Author,
+  Genre,
+  Notification,
+  Borrowing,
+  Sale,
+  SaleItem,
+  InventoryTransaction,
+  BORROWING_STATUS
 };
-
-module.exports = setupDatabase();

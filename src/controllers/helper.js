@@ -1,7 +1,4 @@
-const { Book } = require('../models');
-const { Reader } = require('../models');
-const { Author } = require('../models');
-const { Genre } = require('../models')
+import { Book, Reader, Author, Genre } from '../models/index.js';
 
 const get404Error = (model) => ({ error: `The ${model} could not be found.` });
 
@@ -23,7 +20,7 @@ const removePassword = (obj) => {
     return obj;
 }
 
-exports.createItem = async (res, model, item) => {
+export const createItem = async (res, model, item) => {
     const Model = getModel(model);
     try{
         const newItem = await Model.create(item);
@@ -36,7 +33,7 @@ exports.createItem = async (res, model, item) => {
     }
 }
 
-exports.readItAll = async (res, model) => {
+export const readItAll = async (res, model) => {
     const Model = getModel(model)
     try{
         const items = await Model.findAll();
@@ -49,7 +46,7 @@ exports.readItAll = async (res, model) => {
     }
 };
 
-exports.getItemById = async(res, model, id) => {
+export const getItemById = async(res, model, id) => {
     const Model = getModel(model);
     const items = await Model.findByPk(id);
     if(!items){
@@ -64,7 +61,7 @@ exports.getItemById = async(res, model, id) => {
     }
 };
 
-exports.updateItem = async(body, res, model, id) => {
+export const updateItem = async(body, res, model, id) => {
     const Model = getModel(model)
         const items = await Model.findByPk(id);
         const [ updatedRows ] = await Model.update(body, {where: {id} });
@@ -78,7 +75,7 @@ exports.updateItem = async(body, res, model, id) => {
          }
 }
 
-exports.deleteItem = async(res, model, id) => {
+export const deleteItem = async(res, model, id) => {
     const Model = getModel(model);
         const items = await Model.findByPk(id);
         const deletedRows = await Model.destroy({where: {id} });

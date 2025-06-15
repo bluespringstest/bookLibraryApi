@@ -1,5 +1,4 @@
-
-module.exports = (connection, DataTypes) => {
+export default (connection, DataTypes) => {
     const schema = {
         genre: {
             type: DataTypes.STRING,

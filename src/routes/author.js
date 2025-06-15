@@ -1,16 +1,12 @@
-const express = require('express');
-const authorController = require('../controllers/author');
+import express from 'express';
+import { create, read, readById, update, deleteAuthor } from '../controllers/author.js';
+
 const router = express.Router();
 
-const app = express();
+router.post('/', create);
+router.get('/', read);
+router.get('/:id', readById);
+router.patch('/:id', update);
+router.delete('/:id', deleteAuthor);
 
-app.use(express.json());
-
-router.post('/', authorController.create);
-router.get('/', authorController.read);
-router.get('/:id', authorController.readById);
-router.patch('/:id', authorController.update);
-router.delete('/:id', authorController.delete);
-
-
-module.exports = router;
+export default router;
