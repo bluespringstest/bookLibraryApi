@@ -32,7 +32,7 @@ describe('with records in the database', () => {
         ]);
     });
     describe('GET /genre', () => {
-        it.only('gets all genre records', async () => {
+        it('gets all genre records', async () => {
           const response = await request(app).get('/genre');  
           expect(response.status).to.equal(200);
           response.body.forEach((genre) => {

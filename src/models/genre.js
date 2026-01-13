@@ -6,11 +6,9 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    args: [true],
                     msg: 'genre cannot be empty',
                 },
                 notNull: {
-                    args: [true],
                     msg: "Don't play those games",
                 },
             },

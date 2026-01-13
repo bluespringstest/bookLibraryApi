@@ -1,14 +1,16 @@
-const mysql = require('mysql2/promise');
+const { Pool } = require('pg');
 
-const { DB_PASSWORD, DB_USER, DB_NAME, DB_HOST, DB_PORT } = process.env;
+const { POSTGRES_PASSWORD, POSTGRES_USER, POSTGRES_DB, POSTGRES_SERVER, POSTGRES_PORT, POSTGRES_SSL } = process.env;
 
 module.exports = async () => {
-    const connection = await mysql.createConnection({
-        host: DB_HOST,
-        user: DB_USER,
-        password: DB_PASSWORD,
-        port: DB_PORT,
-        database: DB_NAME,
+    const pool = new Pool({
+        host: POSTGRES_SERVER,
+        user: POSTGRES_USER,
+        password: POSTGRES_PASSWORD,
+        port: POSTGRES_PORT,
+        database: POSTGRES_DB,
+        ssl: POSTGRES_SSL === 'true' ? true : false,
     });
-    return connection;
+    const client = await pool.connect();
+    return client;
 };

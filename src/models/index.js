@@ -4,27 +4,35 @@ const BookModel = require('./book');
 const AuthorModel = require('./author');
 const GenreModel = require('./genre');
 
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
+const { POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_SERVER, POSTGRES_PORT, POSTGRES_SSL } = process.env;
 
 const setupDatabase = () => {
-    const connection = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-        host: DB_HOST,
-        port: DB_PORT,
-        dialect: 'mysql',
-        logging: false
+    const connection = new Sequelize(POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD, {
+        host: POSTGRES_SERVER,
+        port: POSTGRES_PORT,
+        dialect: 'postgres',
+        logging: false,
+        ssl: POSTGRES_SSL === 'true' ? true : false,
     });
     const Reader = ReaderModel(connection, Sequelize);
     const Book = BookModel(connection, Sequelize);
     const Author = AuthorModel(connection, Sequelize);
     const Genre = GenreModel(connection, Sequelize);
 
-    connection.sync({ alter: true });
-    return {
-        Reader,
-        Book,
-        Author,
-        Genre
+    // Ensure the connection is authenticated before syncing
+    const init = async () => {
+        try {
+            await connection.authenticate();
+            await connection.sync({ alter: true });
+            console.log('Database connection authenticated and models synced');
+        } catch (err) {
+            console.error('Unable to connect or sync the database:', err.message || err);
+            throw err;
+        }
+        return { Reader, Book, Author, Genre, connection };
     };
+
+    return { Reader, Book, Author, Genre, init };
 };
 
 module.exports = setupDatabase();

@@ -6,20 +6,17 @@ module.exports = (connection, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: {
-                    args: [true],
                     msg: 'Name cannot be empty',
                 },
             }
         },
-        email: {
+            email: {
             type: DataTypes.STRING,
             validate: {
                 notEmpty: {
-                args: [true],
                 msg: 'Email cannot be empty',
             },
             isEmail: {
-                args: [true],
                 msg: 'Please use a valid email address'
             },
         }
@@ -28,7 +25,6 @@ module.exports = (connection, DataTypes) => {
             type: DataTypes.STRING,
             validate: {
                 notEmpty: {
-                    args: [true],
                     msg: 'Password cannot be empty'
                 },
                 isLessThan8Chars(value){
